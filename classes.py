@@ -29,4 +29,39 @@ class AppBd ():
             print("Falha ao unserir um item na tabela products do bd", e)
         finally:
             if self.conection:
-                self.conection.commit()
+                self.conection.commit() 
+
+    def selectAllDate (self, name, price):
+        selectQuery = '''SELECT * FROM products'''
+        
+        try:   
+            self.cursor.execute(selectQuery)
+            print("Linha inserida com sucesso na tabela products")
+            productsList = self.cursor.fetchall()
+        except sq.Error as e:
+            print("Falha ao unserir um item na tabela products do bd", e)
+        finally:
+            if self.conection:
+                self.conection.commit() 
+
+    def updateDate (self, id, name, price):
+        updateDate = '''UPDATE product SET nome= ?, price=? WHERE id=?'''
+        try:   
+            self.cursor.execute(updateDate,(name,price,id))
+            print("Linha inserida com sucesso na tabela products")
+        except sq.Error as e:
+            print("Falha ao unserir um item na tabela products do bd", e)
+        finally:
+            if self.conection:
+                self.conection.commit() 
+    
+    def deleteDate (self, id):
+        insertionQuery = '''DELETE FROM products WHERE id = ?'''
+        try:   
+            self.cursor.execute(insertionQuery,(id))
+            print("Linha inserida com sucesso na tabela products")
+        except sq.Error as e:
+            print("Falha ao unserir um item na tabela products do bd", e)
+        finally:
+            if self.conection:
+                self.conection.commit() 
