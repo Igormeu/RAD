@@ -1,4 +1,3 @@
-from asyncio import open_connection
 import sqlite3 as sq
 class AppBd ():
     def openConection (self):
