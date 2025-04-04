@@ -3,14 +3,14 @@ import sqlite3 as sq
 class AppBd ():
     def openConection (self):
         try:
-            self.conection = sq.connect("product.db")
+            self.conection = sq.connect("Tkinter_Projects/product.db")
             self.conection.execute("PRAGMA foreign_keys=ON")
             self.cursor = self.conection.cursor()
         except sq.Error as e:
             print("Falha ao se connectar ao bd", e)
 
     def createTable(self):
-        createQuery = '''CREATE TABLE IF NOT EXIST product (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price REAL NOT NULL);'''
+        createQuery = '''CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price REAL NOT NULL);'''
 
         try:
             self.cursor.execute(createQuery)
@@ -22,33 +22,33 @@ class AppBd ():
                 self.conection.commit()
                 
     def insertDate (self, name, price):
-        insertionQuery = '''INSERT INTO products (name, price) VALUES (?,?)'''
+        insertionQuery = '''INSERT INTO product (name, price) VALUES (?,?)'''
         try:   
             self.cursor.execute(insertionQuery,(name,price))
-            print("Linha inserida com sucesso na tabela products")
+            print("Linha inserida com sucesso na tabela product")
         except sq.Error as e:
-            print("Falha ao inserir um item na tabela products do database", e)
+            print("Falha ao inserir um item na tabela product do database", e)
         finally:
             if self.conection:
                 self.conection.commit() 
 
     def selectAllDate (self):
-        selectQuery = '''SELECT * FROM products'''
-        
+        selectQuery = '''SELECT * FROM product'''
+        productList = ()
         try:   
             self.cursor.execute(selectQuery)
-            print("Linha inserida com sucesso na tabela products")
-            productsList = self.cursor.fetchall()
+            productList = self.cursor.fetchall()
+            print("Listagem de produtos coletada com sucesso")
         except sq.Error as e:
-            print("Falha ao unserir um item na tabela products do bd", e)
+            print("Falha ao buscar os itens da tabela product", e)
         finally:
             if self.conection:
                 self.conection.commit() 
         
-        return productsList
+        return productList
 
     def updateDate (self, id, name, price):
-        updateDate = '''UPDATE product SET nome= ?, price=? WHERE id=?'''
+        updateDate = '''UPDATE product SET name= ?, price=? WHERE id=?'''
         try:   
             self.cursor.execute(updateDate,(name,price,id))
             print(f"Linha de id {id} foi atualizada com sucesso")
@@ -59,12 +59,19 @@ class AppBd ():
                 self.conection.commit() 
     
     def deleteDate (self, id):
-        insertionQuery = '''DELETE FROM products WHERE id = ?'''
+        insertionQuery = '''DELETE FROM product WHERE id = ?'''
         try:   
-            self.cursor.execute(insertionQuery,(id))
-            print("Linha inserida com sucesso na tabela products")
+            self.cursor.execute(insertionQuery,(id,))
+            print("Linha inserida com sucesso na tabela product")
         except sq.Error as e:
-            print("Falha ao unserir um item na tabela products do bd", e)
+            print("Falha ao unserir um item na tabela product do bd", e)
         finally:
             if self.conection:
                 self.conection.commit() 
+    
+    def closeConection (self):
+        try:
+            self.cursor.close()
+            self.conection.close()
+        except sq.Error as e:
+            print(f"Não há nenhuma conexão para ser fechada. Error: {e}")
