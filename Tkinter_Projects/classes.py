@@ -1,4 +1,5 @@
 import sqlite3 as sq
+
 class AppBd ():
     def openConection (self):
         try:
@@ -7,6 +8,7 @@ class AppBd ():
             self.cursor = self.conection.cursor()
         except sq.Error as e:
             print("Falha ao se connectar ao bd", e)
+
     def createTable(self):
         createQuery = '''CREATE TABLE IF NOT EXIST product (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price REAL NOT NULL);'''
 
@@ -25,12 +27,12 @@ class AppBd ():
             self.cursor.execute(insertionQuery,(name,price))
             print("Linha inserida com sucesso na tabela products")
         except sq.Error as e:
-            print("Falha ao unserir um item na tabela products do bd", e)
+            print("Falha ao inserir um item na tabela products do database", e)
         finally:
             if self.conection:
                 self.conection.commit() 
 
-    def selectAllDate (self, name, price):
+    def selectAllDate (self):
         selectQuery = '''SELECT * FROM products'''
         
         try:   
@@ -42,14 +44,16 @@ class AppBd ():
         finally:
             if self.conection:
                 self.conection.commit() 
+        
+        return productsList
 
     def updateDate (self, id, name, price):
         updateDate = '''UPDATE product SET nome= ?, price=? WHERE id=?'''
         try:   
             self.cursor.execute(updateDate,(name,price,id))
-            print("Linha inserida com sucesso na tabela products")
+            print(f"Linha de id {id} foi atualizada com sucesso")
         except sq.Error as e:
-            print("Falha ao unserir um item na tabela products do bd", e)
+            print(f"Falha ao modificar o registro de id {id}", e)
         finally:
             if self.conection:
                 self.conection.commit() 
