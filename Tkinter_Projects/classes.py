@@ -9,6 +9,7 @@ class AppBd ():
         except sq.Error as e:
             print("Falha ao se connectar ao bd", e)
 
+
     def createTable(self):
         createQuery = '''CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price REAL NOT NULL);'''
 
@@ -22,6 +23,7 @@ class AppBd ():
                 self.conection.commit()
                 
     def insertDate (self, name, price):
+
         insertionQuery = '''INSERT INTO product (name, price) VALUES (?,?)'''
         try:   
             self.cursor.execute(insertionQuery,(name,price))
@@ -59,6 +61,7 @@ class AppBd ():
                 self.conection.commit() 
     
     def deleteDate (self, id):
+
         insertionQuery = '''DELETE FROM product WHERE id = ?'''
         try:   
             self.cursor.execute(insertionQuery,(id,))
