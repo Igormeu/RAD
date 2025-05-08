@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-import modelo
+import classes
 class PrincipalBD():
     def __init__(self, win):
-       self.objbd = modelo.AppBd()
+       self.objbd = classes.AppBd()
        self.janela = win
 
        self.treeProdutos = ttk.Treeview(self.janela,
@@ -43,7 +43,7 @@ class PrincipalBD():
           for item in self.treeProdutos.get_children():
             self.treeProdutos.delete(item)
             # or self.treeProdutos.delete(* self.treeProdutos.get_children())
-          products = self.objbd.select_all_products()
+          products = self.objbd.selectAllDate()
           for product in products:
             self.treeProdutos.insert("", tk.END, values=product) 
        except:
@@ -52,7 +52,7 @@ class PrincipalBD():
       try: 
          name = self.entrynome.get()
          price = float(self.entrypreco.get())
-         self.objbd.inserirdados(name, price)
+         self.objbd.insertDate(name, price)
 
          self.entrynome.delete(0,tk.END)
          self.entrypreco.delete(0,tk.END)
@@ -78,7 +78,7 @@ class PrincipalBD():
          name = valores[1] if len(name) == 0 else name
          price = float(valores[2]) if price == "" else float(price)     
              
-         self.objbd.update_product(id=id, name=name, price=price)
+         self.objbd.updateDate(id=id, name=name, price=price)
 
          self.entrynome.delete(0,tk.END)
          self.entrypreco.delete(0,tk.END)
@@ -94,7 +94,7 @@ class PrincipalBD():
          valores = item ['values']
          id = valores[0]
              
-         self.objbd.delete_product(id)
+         self.objbd.deleteDate(id)
          
          self.exibirProdutos()
          
