@@ -6,8 +6,9 @@ class AppBd():
         self.createTable()
 
     def openConection(self):
+
         try:
-            self.conection = sq.connect("product.db")
+            self.conection = sq.connect("Tkinter_Projects/product.db")
             self.conection.execute("PRAGMA foreign_keys=ON")
             self.cursor = self.conection.cursor()
         except sq.Error as e:
@@ -33,12 +34,14 @@ class AppBd():
         insertionQuery = '''INSERT INTO product (name, price) VALUES (?, ?)'''
         try:
             self.cursor.execute(insertionQuery, (name, price))
+
             print("Linha inserida com sucesso na tabela product")
         except sq.Error as e:
             print("Falha ao inserir um item na tabela product do database", e)
         finally:
             if self.conection:
                 self.conection.commit()
+
 
     def selectAllDate(self):
         selectQuery = '''SELECT * FROM product'''
@@ -60,23 +63,23 @@ class AppBd():
             print(f"Falha ao modificar o registro de id {id}", e)
         finally:
             if self.conection:
-                self.conection.commit()
+                self.conection.commit() 
+    
+    def deleteDate (self, id):
 
-    def deleteDate(self, id):
-        deleteQuery = '''DELETE FROM product WHERE id = ?'''
-        try:
-            self.cursor.execute(deleteQuery, (id,))
-            print(f"Linha de id {id} deletada com sucesso")
+        insertionQuery = '''DELETE FROM product WHERE id = ?'''
+        try:   
+            self.cursor.execute(insertionQuery,(id,))
+            print("Linha inserida com sucesso na tabela product")
         except sq.Error as e:
-            print(f"Falha ao deletar o item de id {id} na tabela product do BD", e)
+            print("Falha ao unserir um item na tabela product do bd", e)
         finally:
             if self.conection:
-                self.conection.commit()
-
-    def closeConection(self):
+                self.conection.commit() 
+    
+    def closeConection (self):
         try:
             self.cursor.close()
             self.conection.close()
-            print("Conexão fechada com sucesso")
         except sq.Error as e:
             print(f"Não há nenhuma conexão para ser fechada. Error: {e}")

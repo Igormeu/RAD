@@ -106,3 +106,4 @@ product_app = PrincipalBD(janela)
 janela.geometry("900x700")
 janela.mainloop() 
 #apresentar janela, ate que o usuario feche
+

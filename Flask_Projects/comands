@@ -1,0 +1,4 @@
+python -m venv {nome ambiente} | criar MyWorkspace
+{nome ambiente}/Scripts/activate | Ativar ambiente
+deactavate | Desativar ambiente
+pip freeze >> requeriments.txt | Criar o arquivo com todas as bibliotecas
